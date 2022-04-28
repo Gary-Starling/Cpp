@@ -1,23 +1,24 @@
-//#include <<iostream>>
+#include <iostream>
 
 struct Expression
 {
 
     virtual double evaluate() const = 0;
 
-    ~Expression() {}
+    virtual ~Expression() {}
 };
 
 struct Number : Expression
 {
     Number(double value) : value(value)
-    {
-    }
+    {}
 
-    double evaluate()
+    double evaluate() const
     {
         return value;
     }
+    
+    ~Number() {}
 
 private:
     double value;
@@ -31,8 +32,11 @@ struct BinaryOperation : Expression
         : left(left), op(op), right(right)
     {}
     
-    double evaluate()
+    double evaluate() const
     {
+        if (right->evaluate() == 0.0)
+         return 0.0;
+
         switch (op)
         {
         case '+': return (left->evaluate() + right->evaluate()); break;
@@ -46,7 +50,10 @@ struct BinaryOperation : Expression
         default:
             break;
         }
+        return 0.0;
     }
+
+    ~BinaryOperation() {}
 
 private:
     Expression const *left;
