@@ -17,6 +17,7 @@ public:
         b = y;
     }
 
+
     ~Cnt() {} //Деструктор
 
     void print() { cout << a << " " << b << '\n'; }
